@@ -1,0 +1,27 @@
+.decorative-box {
+  width: 100vw;
+  background: #a8dadc;
+  flex-shrink: 0;
+  height: 34vh;
+  position: absolute !important;
+  top: 0;
+  z-index: -1;
+}
+
+.decorative-ellipse {
+  width: 140vw;
+  background: #a8dadc;
+  flex-shrink: 0;
+  height: 49vh;
+  position: absolute !important;
+  top: 18vh;
+  z-index: -1;
+  border-radius: 50%;
+  left: -20vw;
+}
+
+.decorative-moai {
+  left: -10px;
+  bottom: -10px;
+  position: absolute !important;
+}

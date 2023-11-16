@@ -1,0 +1,43 @@
+<div
+  class="container w-100 h-100"
+  fxLayout="column"
+  fxLayoutAlign="center center"
+>
+  <div
+    class="chat-window"
+    fxLayout="column"
+    fxLayoutAlign="space-between center"
+  >
+    <h1 class="chat-header">🇨🇱 ConstitucionGPT 🇨🇱</h1>
+    <div class="chat-messages">
+      <div
+        *ngFor="let group of getGroupedMessages()"
+        [ngClass]="group[0].sender + ' messages'"
+      >
+        <div
+          *ngFor="let message of group; let isLast = last"
+          [ngClass]="{ message: true, last: isLast }"
+        >
+          {{ message.content }}
+        </div>
+      </div>
+    </div>
+
+    <div class="p-inputgroup chat-input">
+      <input
+        type="text"
+        [(ngModel)]="newMessageContent"
+        placeholder="Escríbele a ConstitucionGPT..."
+        (keydown.enter)="sendMessage()"
+      />
+      <button
+        [disabled]="loading || !newMessageContent"
+        type="button"
+        pButton
+        icon="pi pi-send"
+        (click)="sendMessage()"
+        styleClass="p-button-warn"
+      ></button>
+    </div>
+  </div>
+</div>
