@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TooltipModule } from 'primeng/tooltip';
 import { DialogModule } from 'primeng/dialog';
-
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [AppComponent, ChatComponent, NavbarComponent],
   imports: [

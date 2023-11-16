@@ -60,10 +60,10 @@ export class ChatComponent {
       firstValueFrom(this.chatService.sendMessage(this.newMessageContent)).then(
         (response: any) => {
           this.loading = false;
-          const messageContent = response.messages[0].content[0].text.value;
+          const messageContent = response.messages/* data */[0].content[0].text.value;
           const quote =
-            response.messages[0].content[0].text.annotations[0].file_citation
-              .quote;
+            response.messages/* data */[0].content[0].text?.annotations[0]?.file_citation
+              ?.quote;
           if (quote) {
             this.messages[this.messages.length - 1].quote = quote;
           }
