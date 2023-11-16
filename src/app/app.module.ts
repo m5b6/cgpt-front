@@ -5,13 +5,19 @@ import { AppComponent } from './app.component';
 import { ChatComponent } from './chat/chat.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { ButtonModule } from 'primeng/button';
+import { Button, ButtonModule } from 'primeng/button';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MenubarModule } from 'primeng/menubar';
 import { FlexModule } from '@angular/flex-layout';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { TooltipModule } from 'primeng/tooltip';
+import { DialogModule } from 'primeng/dialog';
+
 @NgModule({
   declarations: [AppComponent, ChatComponent, NavbarComponent],
   imports: [
@@ -25,8 +31,27 @@ import { HttpClientModule } from '@angular/common/http';
     FlexModule,
     FlexLayoutModule,
     HttpClientModule,
+    CommonModule,
+    TooltipModule,
+    DialogModule,
+  ],
+  exports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    InputTextareaModule,
+    ButtonModule,
+    FormsModule,
+    MenubarModule,
+    FlexModule,
+    FlexLayoutModule,
+    HttpClientModule,
+    CommonModule,
+    TooltipModule,
+    DialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
+  schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}

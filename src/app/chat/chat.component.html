@@ -9,19 +9,39 @@
     fxLayoutAlign="space-between center"
   >
     <h1 class="chat-header">🇨🇱 ConstitucionGPT 🇨🇱</h1>
-    <div class="chat-messages" #chatContainer>
+    <div class="chat-messages masked-overflow" #chatContainer>
       <div
         *ngFor="let group of getGroupedMessages()"
         [ngClass]="group[0].sender + ' messages'"
       >
-        <div *ngFor="let message of group; let isLast = last">
+        <div
+          *ngFor="let message of group"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+        >
           <div
             [ngClass]="{
-          message: true,
-          last: isLast,
-        }"
+              message: true,
+              typewriter: message.isTyping
+            }"
           >
-            {{ message.content }}
+            {{ message.content
+            }}<span *ngIf="message.isTyping" class="caret"></span>
+          </div>
+          <div *ngIf="message.quote" class="quote">
+            <button
+              class="citation-button"
+              (click)="viewCitation()"
+              [rounded]="true"
+              [text]="true"
+            >
+              <i class="pi pi-search-plus"></i>
+            </button>
+            <p-dialog
+              header="Header"
+              [(visible)]="dialogVisible"
+              [style]="{ width: '50vw' }"
+            />
           </div>
         </div>
       </div>

@@ -11,24 +11,15 @@ export class ChatComponent {
   constructor(private chatService: ChatService) {}
   messages: Message[] = [
     {
-      content: 'Hello, I am a chatbot. How can I help you?',
+      content:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus velit elit, malesuada in bibendum nec, tristique nec leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam malesuada, purus ut viverra consectetur, purus urna rutrum nisl, in lacinia arcu mauris eget nibh. Quisque blandit ante mi. Nunc blandit iaculis suscipit. Phasellus feugiat consequat sagittis.',
       sender: 'yours',
     },
     {
-      content: 'Hello, I am a chatbot. How can I help you?',
+      content:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
       sender: 'yours',
-    },
-    {
-      content: 'Hello, I am a chatbot. How can I help you?',
-      sender: 'yours',
-    },
-    {
-      content: 'Hello, I am a chatbot. How can I help you?',
-      sender: 'yours',
-    },
-    {
-      content: 'Hello, I am a chatbot. How can I help you?',
-      sender: 'yours',
+      quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     },
     {
       content: 'Hello, I am a chatbot. How can I help you?',
@@ -46,6 +37,7 @@ export class ChatComponent {
   newMessageContent: string = '';
   loading: boolean = false;
   muted: boolean = false;
+  dialogVisible: boolean = false;
 
   @ViewChild('chatContainer') chatContainer: any;
 
@@ -62,23 +54,32 @@ export class ChatComponent {
         content: '...',
         sender: 'yours',
       };
+
       this.messages.push(placeholderMessage);
 
       firstValueFrom(this.chatService.sendMessage(this.newMessageContent)).then(
         (response: any) => {
           this.loading = false;
           const messageContent = response.messages[0].content[0].text.value;
-          placeholderMessage.content = messageContent;
+          const quote =
+            response.messages[0].content[0].text.annotations[0].file_citation
+              .quote;
+          if (quote) {
+            this.messages[this.messages.length - 1].quote = quote;
+          }
+
+          placeholderMessage.content = '';
           setTimeout(() => {
             this.scrollToBottom();
-          }, 100);
+          }, 1);
           this.playSound('recieved');
+          this.typeWriter(messageContent, this.messages.length - 1);
         }
       );
       this.newMessageContent = '';
       setTimeout(() => {
         this.scrollToBottom();
-      }, 100);
+      }, 1);
     }
   }
 
@@ -99,7 +100,7 @@ export class ChatComponent {
   private scrollToBottom(): void {
     try {
       this.chatContainer.nativeElement.scrollTop =
-        this.chatContainer.nativeElement.scrollHeight * 100;
+        this.chatContainer.nativeElement.scrollHeight * 1.5;
     } catch (err) {
       console.error('Error while scrolling:', err);
     }
@@ -113,9 +114,33 @@ export class ChatComponent {
       audio.play();
     }
   }
+
+  typeWriter(text: string, index: number, i = 0) {
+    const speed = 10; // Typing speed in milliseconds
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 1);
+    if (i <= text.length) {
+      this.messages[index].content = text.substring(0, i);
+      this.messages[index].isTyping = true; // Add 'isTyping' flag to the message
+
+      setTimeout(() => {
+        if (i === text.length) {
+          this.messages[index].isTyping = false; // Remove the caret when done
+        }
+        this.typeWriter(text, index, i + 1);
+      }, speed);
+    }
+  }
+
+  viewCitation() {
+    this.dialogVisible = true;
+  }
 }
 
 export interface Message {
   content: string;
   sender: 'mine' | 'yours';
+  isTyping?: boolean;
+  quote?: string;
 }
