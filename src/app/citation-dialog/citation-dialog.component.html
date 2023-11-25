@@ -1,0 +1,41 @@
+<dialog id="citationDialog" #dialog>
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <span fxLayout="row" fxLayoutAlign="start center">
+      <h1 #title>Cita</h1>
+
+      <i
+        #icon
+        class="pi pi-info-circle"
+        pTooltip=" Si quieres ver la cita completa, puedes buscarla en el texto original."
+        [appendTo]="icon"
+        [positionTop]="0"
+        tooltipStyleClass="tooltip"
+      ></i>
+    </span>
+  </div>
+  <p id="citation">"{{ citation }}"</p>
+
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <a
+      #link
+      href="https://www.procesoconstitucional.cl/wp-content/uploads/2023/11/Propuesta-Nueva-Constitucion.pdf"
+      target="_blank"
+      >Ver texto completo</a
+    >
+
+    <p-button
+      #copyButton
+      icon="pi pi-copy"
+      (click)="copyToClipboard(citation)"
+      [text]="true"
+    ></p-button>
+  </div>
+
+  <p-button
+    id="closeButton"
+    onclick="document.getElementById('citationDialog').close()"
+    icon="pi pi-times"
+    [text]="true"
+    [rounded]="true"
+  ></p-button>
+</dialog>

@@ -1,5 +1,5 @@
 .decorative-box {
-  width: 100vw;
+  width: 120vw;
   background: #a8dadc;
   flex-shrink: 0;
   height: 34vh;
@@ -21,8 +21,8 @@
 }
 
 .decorative-moai {
-  left: -10px;
-  bottom: -10px;
+  right: 10px;
+  bottom: -40px;
   position: absolute !important;
   z-index: -1;
 }

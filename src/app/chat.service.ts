@@ -10,6 +10,6 @@ export class ChatService {
   route = 'http://localhost:3000';
 
   sendMessage(message: string) {
-    return this.http.post(`${this.route}/test`, { message });
+    return this.http.post(`${this.route}/`, { message });
   }
 }

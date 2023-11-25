@@ -1,0 +1,134 @@
+dialog {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 60px;
+  background-color: #fff;
+  animation: zoomIn 0.2s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  width: 500px;
+  max-width: 80vw;
+}
+
+h1 {
+  margin-bottom: 0;
+  margin-right: 0.35em;
+}
+
+.pi-info-circle {
+  margin-right: 1em;
+}
+
+#citation {
+  max-height: 30vh !important;
+  overflow-y: auto !important;
+  padding: 20px !important;
+  margin-top: 0 !important;
+  margin-bottom: 20px;
+
+  /* scroll bar width, for use in mask calculations */
+  --scrollbar-width: 8px;
+
+  /* mask fade distance, for use in mask calculations */
+  --mask-height: 16px;
+
+  /* If content exceeds height of container, overflow! */
+  overflow-y: auto;
+
+  /* Our height limit */
+  height: 300px;
+
+  /* Need to make sure container has bottom space,
+otherwise content at the bottom is always faded out */
+  padding-bottom: var(--mask-height);
+
+  /* Keep some space between content and scrollbar */
+  padding-right: 20px;
+
+  /* The CSS mask */
+
+  /* The content mask is a linear gradient from top to bottom */
+  --mask-image-content: linear-gradient(
+    to bottom,
+    transparent,
+    black var(--mask-height),
+    black calc(100% - var(--mask-height)),
+    transparent
+  );
+
+  /* Here we scale the content gradient to the width of the container 
+minus the scrollbar width. The height is the full container height */
+  --mask-size-content: calc(100% - var(--scrollbar-width)) 100%;
+
+  /* The scrollbar mask is a black pixel */
+  --mask-image-scrollbar: linear-gradient(black, black);
+
+  /* The width of our black pixel is the width of the scrollbar.
+The height is the full container height */
+  --mask-size-scrollbar: var(--scrollbar-width) 100%;
+
+  /* Apply the mask image and mask size variables */
+  mask-image: var(--mask-image-content), var(--mask-image-scrollbar);
+  mask-size: var(--mask-size-content), var(--mask-size-scrollbar);
+
+  /* Position the content gradient in the top left, and the 
+scroll gradient in the top right */
+  mask-position: 0 0, 100% 0;
+
+  /* We don't repeat our mask images */
+  mask-repeat: no-repeat, no-repeat;
+}
+#closeButton {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+:host {
+  ::ng-deep button {
+    &#closeButton {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+    }
+  }
+
+  ::ng-deep .pi-copy {
+    color: #000000 !important;
+  }
+  ::ng-deep .p-tooltip {
+    z-index: 9999 !important;
+  }
+  .p-tooltip {
+    z-index: 9999 !important;
+  }
+
+  ::ng-deep .tooltip {
+    left: unset !important;
+    top: unset !important;
+    transform: translateY(-40%) !important;
+  }
+}
+
+p {
+  /* justified */
+  text-align: justify;
+  text-justify: inter-word;
+  /* cursive */
+  font-style: italic;
+  margin-bottom: 0;
+}
+
+h1 {
+  margin-top: 0;
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    scale: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}

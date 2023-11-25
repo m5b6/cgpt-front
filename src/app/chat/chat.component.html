@@ -11,38 +11,26 @@
     <h1 class="chat-header">🇨🇱 ConstitucionGPT 🇨🇱</h1>
     <div class="chat-messages masked-overflow" #chatContainer>
       <div
-        *ngFor="let group of getGroupedMessages()"
-        [ngClass]="group[0].sender + ' messages'"
+        *ngFor="let message of messages"
+        [ngClass]="message.sender + ' messages'"
+        fxLayout="row"
+        fxlLayoutAlign="center center"
       >
-        <div
-          *ngFor="let message of group"
-          fxLayout="row"
-          fxLayoutAlign="start center"
-        >
-          <div
-            [ngClass]="{
-              message: true,
-              typewriter: message.isTyping
-            }"
-          >
+        <div [ngClass]="{ message: true, typewriter: message.isTyping }">
+          <div class="message-content">
             {{ message.content
             }}<span *ngIf="message.isTyping" class="caret"></span>
           </div>
-          <div *ngIf="message.quote" class="quote">
-            <button
-              class="citation-button"
-              (click)="viewCitation()"
-              [rounded]="true"
-              [text]="true"
-            >
-              <i class="pi pi-search-plus"></i>
-            </button>
-            <p-dialog
-              header="Header"
-              [(visible)]="dialogVisible"
-              [style]="{ width: '50vw' }"
-            />
-          </div>
+        </div>
+        <div *ngIf="message.quote" class="quote">
+          <button class="citation-button" (click)="viewCitation(message.quote)">
+            <i class="pi pi-search-plus"></i>
+          </button>
+        </div>
+        <div *ngIf="message.isThinking" class="quote">
+          <p-progressSpinner
+            [style]="{ width: '20px', height: '20px' }"
+          ></p-progressSpinner>
         </div>
       </div>
     </div>
@@ -55,7 +43,7 @@
         (keydown.enter)="sendMessage()"
       />
       <button
-        [disabled]="loading || !newMessageContent"
+        [disabled]="loading"
         type="button"
         pButton
         icon="pi pi-send"
@@ -64,4 +52,6 @@
       ></button>
     </div>
   </div>
+
+  <app-citation-dialog #citationDialog></app-citation-dialog>
 </div>

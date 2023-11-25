@@ -2,51 +2,44 @@ import { Component } from '@angular/core';
 import { ChatService } from '../chat.service';
 import { firstValueFrom } from 'rxjs';
 import { ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
 export class ChatComponent {
-  constructor(private chatService: ChatService) {}
+  constructor(private chatService: ChatService, public dialog: MatDialog) {}
   messages: Message[] = [
     {
       content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus velit elit, malesuada in bibendum nec, tristique nec leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam malesuada, purus ut viverra consectetur, purus urna rutrum nisl, in lacinia arcu mauris eget nibh. Quisque blandit ante mi. Nunc blandit iaculis suscipit. Phasellus feugiat consequat sagittis.',
+        '¡Hola! Soy ConstituciónGPT, te daré respuestas a tus preguntas sobre la nueva Propuesta de Constitución Política de la República de Chile. ¿Cuál es tu pregunta?',
       sender: 'yours',
-    },
-    {
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      sender: 'yours',
-      quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    },
-    {
-      content: 'Hello, I am a chatbot. How can I help you?',
-      sender: 'yours',
-    },
-    {
-      content: 'Hello, I am a chatbot. How can I help you?',
-      sender: 'mine',
-    },
-    {
-      content: 'Hello, I am a chatbot. How can I help you?',
-      sender: 'yours',
+      quote:
+        'lorem ipsum dolor sit amet consectetur adipiscing elit sed do lorem ipsum dolor sit amet consectetur adipiscing elit sed do lorem ipsum dolor sit amet consectetur adipiscing elit sed do v lorem ipsum dolor sit amet consectetur adipiscing elit sed do v lorem ipsum dolor sit amet consectetur adipiscing elit sed do lorem ipsum dolor sit amet consectetur adipiscing elit sed do lorem ipsum dolor sit amet consectetur adipiscing elit sed do lorem ipsum dolor sit amet consectetur adipiscing elit sed do, lorem ipsum dolor sit amet consectetur adipiscing elit sed do, lorem ipsum dolor sit amet consectetur adipiscing elit sed do, lorem ipsum dolor sit amet consectetur adipiscing elit sed do lorem ipsum dolor sit amet consectetur adipiscing elit sed do lorem ipsum dolor sit amet consectetur adipiscing elit sed do lorem ipsum dolor sit amet consectetur adipiscing elit sed do lorem ipsum dolor sit amet consectetur adipiscing elit sed do lorem ipsum dolor sit amet consectetur adipiscing elit sed do lorem ipsum dolor sit amet consectetur adipiscing elit sed do v lorem ipsum dolor sit amet consectetur adipiscing elit sed do v lorem ipsum dolor sit amet consectetur adipiscing elit sed do lorem ipsum dolor sit amet consectetur adipiscing elit sed do lorem ipsum dolor sit amet consectetur adipiscing elit sed do lorem ipsum dolor sit amet consectetur adipiscing elit sed do, lorem ipsum dolor sit amet consectetur adipiscing elit sed do, lorem ipsum dolor sit amet consectetur adipiscing elit sed do, lorem ipsum dolor sit amet consectetur adipiscing elit sed do lorem ipsum dolor sit amet consectetur adipiscing elit sed do lorem ipsum dolor sit amet consectetur adipiscing elit sed do lorem ipsum dolor sit amet consectetur adipiscing elit sed do',
     },
   ];
   newMessageContent: string = '';
   loading: boolean = false;
   muted: boolean = false;
   dialogVisible: boolean = false;
+  selectedCitation: string = '';
+  isWriting: boolean = false;
+  groupedMessages: Message[][] = [];
 
   @ViewChild('chatContainer') chatContainer: any;
+  @ViewChild('citationDialog') citationDialog: any;
 
   async sendMessage() {
-    if (this.newMessageContent.trim() && !this.loading) {
+    this.updateGroupedMessages();
+
+    console.log(!this.isWriting);
+    if (this.newMessageContent.trim() && !this.loading && !this.isWriting) {
       this.messages.push({
         content: this.newMessageContent,
         sender: 'mine',
       });
+      this.updateGroupedMessages();
       this.loading = true;
       this.playSound('sent');
 
@@ -56,26 +49,35 @@ export class ChatComponent {
       };
 
       this.messages.push(placeholderMessage);
+      this.scrollToBottom();
+
+      this.updateGroupedMessages();
 
       firstValueFrom(this.chatService.sendMessage(this.newMessageContent)).then(
-        (response: any) => {
+        async (response: any) => {
           this.loading = false;
-          const messageContent = response.messages/* data */[0].content[0].text.value;
+          setTimeout(() => {
+            placeholderMessage.isThinking = true;
+          }, 1000);
+          this.isWriting = true;
+          const messageContent =
+            response./* messages */ data.content[0].text.value;
           const quote =
-            response.messages/* data */[0].content[0].text?.annotations[0]?.file_citation
-              ?.quote;
-          if (quote) {
-            this.messages[this.messages.length - 1].quote = quote;
-          }
+            response./* messages */ data.content[0].text?.annotations[0]
+              ?.file_citation?.quote;
 
           placeholderMessage.content = '';
           setTimeout(() => {
             this.scrollToBottom();
           }, 1);
-          this.playSound('recieved');
-          this.typeWriter(messageContent, this.messages.length - 1);
+          await this.typeWriter(messageContent, this.messages.length - 1);
+          if (quote) {
+            this.messages[this.messages.length - 1].quote = quote;
+          }
+          this.updateGroupedMessages();
         }
       );
+
       this.newMessageContent = '';
       setTimeout(() => {
         this.scrollToBottom();
@@ -97,6 +99,10 @@ export class ChatComponent {
     }, [] as Message[][]);
   }
 
+  private updateGroupedMessages(): void {
+    this.groupedMessages = this.getGroupedMessages();
+  }
+
   private scrollToBottom(): void {
     try {
       this.chatContainer.nativeElement.scrollTop =
@@ -106,7 +112,7 @@ export class ChatComponent {
     }
   }
 
-  playSound(file: 'sent' | 'recieved') {
+  private playSound(file: 'sent' | 'recieved') {
     if (!this.muted) {
       const audio = new Audio();
       audio.src = `../../assets/${file}.mp3`;
@@ -115,26 +121,31 @@ export class ChatComponent {
     }
   }
 
-  typeWriter(text: string, index: number, i = 0) {
-    const speed = 10; // Typing speed in milliseconds
-    setTimeout(() => {
-      this.scrollToBottom();
-    }, 1);
-    if (i <= text.length) {
-      this.messages[index].content = text.substring(0, i);
-      this.messages[index].isTyping = true; // Add 'isTyping' flag to the message
+  async typeWriter(text: string, index: number, i = 0): Promise<void> {
+    const speed = 10;
+    text = text.replace(/【.*?】/g, '');
 
-      setTimeout(() => {
-        if (i === text.length) {
-          this.messages[index].isTyping = false; // Remove the caret when done
-        }
-        this.typeWriter(text, index, i + 1);
-      }, speed);
+    while (i <= text.length) {
+      this.messages[index].content = text.substring(0, i);
+      this.messages[index].isTyping = true;
+      await this.delay(speed);
+      i++;
+      this.scrollToBottom();
     }
+
+    this.messages[index].isTyping = false;
+    this.isWriting = false;
+    this.playSound('recieved');
   }
 
-  viewCitation() {
-    this.dialogVisible = true;
+  viewCitation(quote: string) {
+    this.citationDialog.citation = quote;
+    console.log('intentando abrir.');
+    this.citationDialog.open();
+  }
+
+  private delay(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }
 
@@ -142,5 +153,6 @@ export interface Message {
   content: string;
   sender: 'mine' | 'yours';
   isTyping?: boolean;
+  isThinking?: boolean;
   quote?: string;
 }

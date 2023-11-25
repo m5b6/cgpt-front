@@ -18,8 +18,18 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TooltipModule } from 'primeng/tooltip';
 import { DialogModule } from 'primeng/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CitationDialogComponent } from './citation-dialog/citation-dialog.component';
+import { DecorativeChileComponent } from './decorative-chile/decorative-chile.component';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 @NgModule({
-  declarations: [AppComponent, ChatComponent, NavbarComponent],
+  declarations: [
+    AppComponent,
+    ChatComponent,
+    NavbarComponent,
+    CitationDialogComponent,
+    DecorativeChileComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -34,6 +44,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     CommonModule,
     TooltipModule,
     DialogModule,
+    ToastModule,
   ],
   exports: [
     BrowserModule,
@@ -49,6 +60,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     CommonModule,
     TooltipModule,
     DialogModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
