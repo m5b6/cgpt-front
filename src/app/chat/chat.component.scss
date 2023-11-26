@@ -3,6 +3,12 @@
     justify-content: center;
   }
 
+  .chat-header-icon{
+    width: 1em !important;
+    height: 1em !important;
+    margin-left: 0.35em;
+  }
+
   button.citation-button {
     &:last-child {
       animation: slide-in-from-right 0.5s cubic-bezier(0.785, 0.135, 0.15, 0.86)
@@ -39,9 +45,9 @@
     height: 80%;
     max-width: 100%;
     width: 700px;
-    border-radius: 6px;
+    border-radius: 20px;
+
     overflow-y: scroll;
-    border: 1px solid #ced4da2b;
     padding: 1.5em 0em;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
     background-color: #fff;
@@ -203,7 +209,8 @@
 
   .mine .message {
     color: white;
-    background: linear-gradient(to bottom, #00d0ea 0%, #0085d1 100%);
+    /* background: #1d3556; */
+    background: #1d3556;
     background-attachment: fixed;
     position: relative;
   }

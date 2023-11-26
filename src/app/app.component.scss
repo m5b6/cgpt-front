@@ -41,3 +41,11 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
+.decorative-book{
+  position: absolute !important;
+  font-size: 0.1em !important;
+  bottom: 40%;
+  right: 0;
+  z-index: -1;
+}
