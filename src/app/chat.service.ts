@@ -7,9 +7,9 @@ import { HttpHeaders } from '@angular/common/http';
 export class ChatService {
   constructor(private http: HttpClient) {}
 
-/*   route = 'https://cgpt-back.onrender.com';
- */  route = 'http://localhost:3000';
-
+  route = 'https://cgpt-back.onrender.com';
+  /*   route = 'http://localhost:3000';
+   */
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 
