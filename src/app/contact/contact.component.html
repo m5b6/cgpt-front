@@ -1,5 +1,13 @@
-<div class="container w-100 h-100" fxLayout="column" fxLayoutAlign="center center">
-  <div class="chat-window" fxLayout="column" fxLayoutAlign="space-between center">
+<div
+  class="container w-100 h-100"
+  fxLayout="column"
+  fxLayoutAlign="center center"
+>
+  <div
+    class="chat-window"
+    fxLayout="column"
+    fxLayoutAlign="space-between center"
+  >
     <h1 class="chat-header">¡Hablemos! 😊</h1>
     <p>Contestamos rápidamente</p>
 
@@ -12,7 +20,15 @@
     >
       <div class="p-field">
         <label for="name">Nombre</label>
-        <input type="text" id="name" pInputText name="name" ngModel required />
+        <input
+          type="text"
+          id="name"
+          [disabled]="loading"
+          pInputText
+          name="name"
+          ngModel
+          required
+        />
       </div>
 
       <div class="p-field">
@@ -22,6 +38,7 @@
           id="email"
           pInputText
           name="email"
+          [disabled]="loading"
           ngModel
           required
           email
@@ -33,12 +50,13 @@
         <textarea
           id="message"
           pInputTextarea
+          [disabled]="loading"
           name="message"
           rows="4"
           ngModel
           required
           maxlength="2000"
-          style="resize: none;"
+          style="resize: none"
         ></textarea>
       </div>
 
@@ -46,11 +64,16 @@
         pButton
         type="submit"
         label="Enviar"
-        icon="pi pi-send"
+        [icon]="loading ? 'pi pi-spin pi-spinner' : 'pi pi-send'"
+        [disabled]="loading"
         iconPos="right"
-        class="p-button-raised "
+        class="p-button-raised"
         [disabled]="!contactForm.valid"
       ></button>
     </form>
   </div>
 </div>
+
+<p-toast position="top-center"
+[life]="7000"
+></p-toast>

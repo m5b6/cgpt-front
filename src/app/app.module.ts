@@ -24,8 +24,8 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ContactComponent } from './contact/contact.component';
 import { InputTextModule } from 'primeng/inputtext';
-
-
+import { MessagesModule } from 'primeng/messages';
+import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +34,7 @@ import { InputTextModule } from 'primeng/inputtext';
     CitationDialogComponent,
     DecorativeChileComponent,
     ContactComponent,
+    DisclaimerComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,7 +52,7 @@ import { InputTextModule } from 'primeng/inputtext';
     DialogModule,
     ToastModule,
     InputTextModule,
-    
+    MessagesModule,
   ],
   exports: [
     BrowserModule,

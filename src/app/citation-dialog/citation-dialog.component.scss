@@ -34,7 +34,6 @@ h1 {
   /* If content exceeds height of container, overflow! */
   overflow-y: auto;
 
-
   /* Need to make sure container has bottom space,
 otherwise content at the bottom is always faded out */
   padding-bottom: var(--mask-height);
@@ -90,8 +89,17 @@ scroll gradient in the top right */
     }
   }
 
-  ::ng-deep .pi-copy {
-    color: #000000 !important;
+  a {
+    color: #1d3556;
+  }
+
+  ::ng-deep button.p-button {
+    background-color: transparent !important;
+    color: #1d3556 !important;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+      background-color: #1d355610 !important;
+    }
   }
   ::ng-deep .p-tooltip {
     z-index: 9999 !important;

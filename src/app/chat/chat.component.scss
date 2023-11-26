@@ -52,7 +52,7 @@
     padding: 0em 1.5em;
   }
   .chat-header {
-    font-family: 'Outfit';
+    font-family: "Outfit";
     height: 7.5%;
     display: flex;
     justify-content: space-between;
@@ -113,7 +113,7 @@
 
   @keyframes slide-in-from-left-message {
     from {
-      transform: translate(-50%,0 ); /* Start from right */
+      transform: translate(-50%, 0); /* Start from right */
       opacity: 0; /* Start with the button being transparent */
       scale: 0.75;
     }
@@ -122,6 +122,26 @@
       opacity: 1; /* Fully visible at the end */
     }
   }
+
+  .loading-indicator {
+    color: #cacaca !important;
+    font-size: 0.85em !important;
+    margin-left: 0.5em;
+    
+    & .pi {
+      color: #cacaca !important;
+      font-size: 0.85em !important;
+    }
+    & .pi-book {
+      position: absolute !important;
+      font-size: 0.1em !important;
+      transform: translate(40%, 45%) !important;
+    }
+  }
+
+  ///////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////
@@ -141,7 +161,6 @@
     margin-top: 5px;
     margin-bottom: 5px;
     display: inline-block;
-
   }
 
   .yours .message {
@@ -180,7 +199,6 @@
   .yours {
     align-items: center;
     animation: slide-in-from-left-message 0.75s cubic-bezier(1, 0, 0, 1) 1;
-
   }
 
   .mine .message {

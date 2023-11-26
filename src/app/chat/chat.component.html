@@ -27,10 +27,11 @@
             <i class="pi pi-search-plus"></i>
           </button>
         </div>
-        <div *ngIf="message.isThinking" class="quote">
-          <p-progressSpinner
-            [style]="{ width: '20px', height: '20px' }"
-          ></p-progressSpinner>
+        <div *ngIf="message.isThinking" fxLayout="row">
+          <p class="loading-indicator">
+            <i class="pi pi-spin pi-spinner"> </i>
+            {{ loadingFlavorText + dots }}
+          </p>
         </div>
       </div>
     </div>
@@ -55,3 +56,5 @@
 
   <app-citation-dialog #citationDialog></app-citation-dialog>
 </div>
+
+<p-toast position="top-center" [life]="7000"></p-toast>

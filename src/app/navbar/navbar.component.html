@@ -78,9 +78,11 @@
           Contacto
         </a>
         <a
-          class="hover-underline-animation"
+          class="hover-underline-animation disabled"
           fxLayoutAlign="center center"
+          [disabled]="true"
           [routerLink]="['/contact']"
+          pTooltip="Estamos trabajando para ud."
         >
           <i class="pi pi-user"></i>
           Nosotros

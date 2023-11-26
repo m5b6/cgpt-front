@@ -33,6 +33,11 @@ a {
   }
 }
 
+.disabled{
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .hover-underline-animation {
   display: inline-block;
   position: relative;
