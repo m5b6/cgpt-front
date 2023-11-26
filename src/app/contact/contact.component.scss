@@ -1,0 +1,44 @@
+:host {
+  .chat-window {
+    max-width: 100%;
+    width: 700px;
+    border-radius: 6px;
+    overflow-y: scroll;
+    border: 1px solid #ced4da2b;
+    padding: 2.5em; 
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+  }
+
+  .container {
+    height: 100% !important;
+    padding: 0.75em;
+  }
+
+  .p-field {
+    margin-bottom: 25px;
+    width: 100%;
+  }
+
+  form {
+    width: 100%;
+    padding: 0 !important ;
+  }
+
+  h1{
+    font-family: 'Outfit';
+    margin: 0 !important;
+  }
+  p{
+    font-family: 'Outfit';
+    margin: 10px;
+
+  }
+  label{
+    margin-bottom: 5px !important;
+  }
+
+  button{
+    width: 200px;
+  }
+}

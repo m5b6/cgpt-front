@@ -1,0 +1,56 @@
+<div class="container w-100 h-100" fxLayout="column" fxLayoutAlign="center center">
+  <div class="chat-window" fxLayout="column" fxLayoutAlign="space-between center">
+    <h1 class="chat-header">¡Hablemos! 😊</h1>
+    <p>Contestamos rápidamente</p>
+
+    <form
+      #contactForm="ngForm"
+      (ngSubmit)="onSubmit(contactForm)"
+      class="p-fluid container"
+      fxLayout="column"
+      fxLayoutAlign="space-between center"
+    >
+      <div class="p-field">
+        <label for="name">Nombre</label>
+        <input type="text" id="name" pInputText name="name" ngModel required />
+      </div>
+
+      <div class="p-field">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          pInputText
+          name="email"
+          ngModel
+          required
+          email
+        />
+      </div>
+
+      <div class="p-field">
+        <label for="message">Mensaje</label>
+        <textarea
+          id="message"
+          pInputTextarea
+          name="message"
+          rows="4"
+          ngModel
+          required
+          maxlength="2000"
+          style="resize: none;"
+        ></textarea>
+      </div>
+
+      <button
+        pButton
+        type="submit"
+        label="Enviar"
+        icon="pi pi-send"
+        iconPos="right"
+        class="p-button-raised "
+        [disabled]="!contactForm.valid"
+      ></button>
+    </form>
+  </div>
+</div>

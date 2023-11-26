@@ -22,6 +22,10 @@ import { CitationDialogComponent } from './citation-dialog/citation-dialog.compo
 import { DecorativeChileComponent } from './decorative-chile/decorative-chile.component';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { ContactComponent } from './contact/contact.component';
+import { InputTextModule } from 'primeng/inputtext';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +33,7 @@ import { MessageService } from 'primeng/api';
     NavbarComponent,
     CitationDialogComponent,
     DecorativeChileComponent,
+    ContactComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +50,8 @@ import { MessageService } from 'primeng/api';
     TooltipModule,
     DialogModule,
     ToastModule,
+    InputTextModule,
+    
   ],
   exports: [
     BrowserModule,

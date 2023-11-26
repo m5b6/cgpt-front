@@ -16,10 +16,50 @@
   }
 }
 
+svg{
+  cursor: pointer;
+}
+
 a {
   font-family: "Outfit";
   font-size: 28px;
   font-style: normal;
   font-weight: 700;
   color: #1d3556;
+  cursor: pointer;
+  margin-right: 1.5em;
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.hover-underline-animation {
+  display: inline-block;
+  position: relative;
+  color: #1d3556;
+  text-decoration: none;
+}
+
+.hover-underline-animation::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 4px;
+  bottom: 0;
+  left: 0;
+  background-color: #1d3556;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.hover-underline-animation:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.pi{
+  font-weight: 1000 !important;
+  font-size: 0.65em !important;
+  margin-right: 0.3em !important;
 }

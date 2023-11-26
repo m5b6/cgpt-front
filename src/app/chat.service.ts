@@ -12,4 +12,14 @@ export class ChatService {
   sendMessage(message: string) {
     return this.http.post(`${this.route}/`, { message });
   }
+
+  sendContactForm(contactForm: any) {
+    return this.http.post(`${this.route}/contact`, contactForm);
+  }
+}
+
+export interface contactForm {
+  name: string;
+  email: string;
+  message: string;
 }
