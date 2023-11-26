@@ -78,16 +78,22 @@ export class ChatComponent implements OnInit {
 
       this.updateGroupedMessages();
 
-      firstValueFrom(this.chatService.sendMessage(this.newMessageContent))
+      firstValueFrom(
+        this.chatService.sendMessage(
+          this.newMessageContent,
+          localStorage.getItem('cgptThreadId') || null
+        )
+      )
         .then(async (response: any) => {
           this.loading = false;
           placeholderMessage.isThinking = false;
           this.isWriting = true;
-          const messageContent =
-            response./* messages */ data.content[0].text.value;
-          const quote =
-            response./* messages */ data.content[0].text?.annotations[0]
-              ?.file_citation?.quote;
+          const responseData = response;
+          const messageContent = responseData.responseText;
+          const quote = responseData.citation;
+          if (responseData.threadId) {
+            localStorage.setItem('cgptThreadId', responseData.threadId);
+          }
 
           placeholderMessage.content = '';
           setTimeout(() => {
@@ -111,6 +117,7 @@ export class ChatComponent implements OnInit {
         .finally(() => {
           this.updateGroupedMessages();
           this.scrollToBottom();
+          this.saveChatHistory();
         });
       this.newMessageContent = '';
       this.scrollToBottom();
@@ -178,6 +185,17 @@ export class ChatComponent implements OnInit {
     this.citationDialog.open();
   }
 
+  saveChatHistory() {
+    localStorage.setItem('cgptChatHistory', JSON.stringify(this.messages));
+  }
+
+  loadChatHistory() {
+    const savedMessages = localStorage.getItem('cgptChatHistory');
+    if (savedMessages) {
+      this.messages = JSON.parse(savedMessages);
+      this.updateGroupedMessages();
+    }
+  }
   private delay(ms: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
@@ -193,7 +211,9 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadChatHistory();
     this.alterDots();
+    this.scrollToBottom();
   }
 }
 

@@ -7,9 +7,9 @@ import { HttpHeaders } from '@angular/common/http';
 export class ChatService {
   constructor(private http: HttpClient) {}
 
-  route = 'https://cgpt-back.onrender.com';
-  /*   route = 'http://localhost:3000';
-   */
+  /*   route = 'https://cgpt-back.onrender.com';
+   */ route = 'http://localhost:3000';
+
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 
@@ -17,8 +17,12 @@ export class ChatService {
     observe: 'response' as 'response',
   };
 
-  sendMessage(message: string) {
-    return this.http.post(`${this.route}/`, { message });
+  sendMessage(message: string, threadId: string | null) {
+    if (!threadId) {
+      return this.http.post(`${this.route}/`, { message });
+    } else {
+      return this.http.post(`${this.route}/`, { message, threadId });
+    }
   }
 
   sendContactForm(contactForm: any) {
