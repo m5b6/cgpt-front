@@ -97,6 +97,7 @@
         [(ngModel)]="newMessageContent"
         placeholder="Escríbele a ConstitucionGPT..."
         (keydown.enter)="sendMessage()"
+        maxlength="5000"
       />
       <button
         [disabled]="loading"

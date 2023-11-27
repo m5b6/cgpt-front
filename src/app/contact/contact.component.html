@@ -16,6 +16,7 @@
       class="p-fluid container"
       fxLayout="column"
       fxLayoutAlign="space-between center"
+      maxlength="2000"
     >
       <div class="p-field">
         <label for="name">Nombre</label>
@@ -27,6 +28,7 @@
           name="name"
           ngModel
           required
+          maxlength="100"
         />
       </div>
 
@@ -41,6 +43,7 @@
           ngModel
           required
           email
+          maxlength="100"
         />
       </div>
 
@@ -73,6 +76,4 @@
   </div>
 </div>
 
-<p-toast position="top-center"
-[life]="7000"
-></p-toast>
+<p-toast position="top-center" [life]="7000"></p-toast>
